@@ -1,0 +1,26 @@
+html { box-sizing: border-box;}
+* {box-sizing: inherit;}
+
+.cell {
+  width: 80px;
+  height: 80px;
+  border: 1px solid black;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.row {
+
+}
+
+
+.cover {
+  background-color: green;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.cover p {
+  display: none;
+}
