@@ -1,23 +1,34 @@
-var MineSweep = function(){
-  this.NUM_MINES = 2
-  this.SIZE = 4
-  this.board = [[0, 0, 0, 0]
-               ,[0, 0, 0, 0]
-               ,[0, 0, 0, 0]
-               ,[0, 0, 0, 0]]
-
+var MineSweep = function(options){
+  options = options || {}
+  this.SIZE = options.gridSize || 4
+  this.NUM_MINES = options.mines || this.size
+  this.setBoard(this.SIZE)
   this.drawBoard()
 }
 
 MineSweep.prototype = {
   constructor: MineSweep,
 
+  setBoard: function(n) {
+    this.board = []
+    var i = n
+    while (i--) {
+      var row = []
+        , j = n
+      while (j--){
+        row.push(0)
+      }
+      this.board.push(row)
+    }
+    return this.board
+  },
+
   getPos: function() {
     return Math.floor(Math.random() * this.SIZE)
   },
 
   drawBoard: function() {
-    for (var i=0; i < 2; i++) {
+    for (var i=0; i < this.SIZE; i++) {
       var x, y
 
       // Get initial position
@@ -29,7 +40,8 @@ MineSweep.prototype = {
         x = this.getPos()
         y = this.getPos()
       }
-      console.log(x, y)
+
+      // Mark mine
       this.board[y][x] = "X"
     }
 
@@ -66,5 +78,5 @@ MineSweep.prototype = {
 
 
 $(function(){
-  new MineSweep()
+  new MineSweep({mines: 3, gridSize: 10})
 })
