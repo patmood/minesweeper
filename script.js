@@ -44,7 +44,13 @@ MineSweep.prototype = {
     this.board.forEach(function(row){
       var rowString = ''
       row.forEach(function(el) {
-        rowString += '<div class="cell"><div class="cover"><p>' + el + '</p></div></div>'
+        rowString += '<div class="cell">' +
+                        '<div class="cover">' +
+                        '</div>' +
+                        '<div class="count">' +
+                          el +
+                        '</div>' +
+                      '</div>'
       })
       $boardEl.append('<div class="row">' + rowString + '</div>')
       $('.cover').on('click', _this.clickHandle)
@@ -52,7 +58,7 @@ MineSweep.prototype = {
   },
 
   clickHandle: function(e) {
-    $(this).css('background', 'none').find('p').show()
+    $(this).hide()
   }
 
 }
