@@ -1,10 +1,10 @@
 var MineSweep = function(options){
   options = options || {}
   this.SIZE = options.gridSize || 5
-  this.NUM_MINES = options.mines || this.size
-  var board = this.setBoard(this.SIZE)
-  this.board = board
-  this.setMines(board)
+  var numMines = options.mines || this.size
+    , board = this.setBoard(this.SIZE)
+
+  this.setMines(board, numMines)
   this.countSurrounds(board)
   this.draw(board)
 }
@@ -13,7 +13,25 @@ MineSweep.prototype = {
   constructor: MineSweep,
 
   countSurrounds: function(board){
-
+    for (var i = 0; i < board.length; i ++) {
+      for (var j = 0; j < board[i].length; j++) {
+        if (board[i][j] === 'X') continue;
+        var count = 0
+        if (board[i][j+1] === 'X') count++
+        if (board[i][j-1] === 'X') count++
+        if (i > 0) {
+          if (board[i-1][j-1] === 'X') count++
+          if (board[i-1][j] === 'X') count++
+          if (board[i-1][j+1] === 'X') count++
+        }
+        if (i < board.length - 1) {
+          if (board[i+1][j-1] === 'X') count++
+          if (board[i+1][j] === 'X') count++
+          if (board[i+1][j+1] === 'X') count++
+        }
+        board[i][j] = count
+      }
+    }
   },
 
   setBoard: function(n) {
@@ -34,8 +52,8 @@ MineSweep.prototype = {
     return Math.floor(Math.random() * this.SIZE)
   },
 
-  setMines: function(board) {
-    for (var i=0; i < this.SIZE; i++) {
+  setMines: function(board, numMines) {
+    for (var i=0; i < numMines; i++) {
       var x, y
 
       // Get initial position
@@ -87,5 +105,5 @@ MineSweep.prototype = {
 
 
 $(function(){
-  new MineSweep({mines: 3, gridSize: 4})
+  new MineSweep({mines: 6, gridSize: 4})
 })
