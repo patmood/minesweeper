@@ -2,15 +2,22 @@ var MineSweep = function(options){
   options = options || {}
   this.SIZE = options.gridSize || 5
   this.NUM_MINES = options.mines || this.size
-  this.setBoard(this.SIZE)
-  this.drawBoard()
+  var board = this.setBoard(this.SIZE)
+  this.board = board
+  this.setMines(board)
+  this.countSurrounds(board)
+  this.draw(board)
 }
 
 MineSweep.prototype = {
   constructor: MineSweep,
 
+  countSurrounds: function(board){
+
+  },
+
   setBoard: function(n) {
-    this.board = []
+    var board = []
     var i = n
     while (i--) {
       var row = []
@@ -18,16 +25,16 @@ MineSweep.prototype = {
       while (j--){
         row.push(0)
       }
-      this.board.push(row)
+      board.push(row)
     }
-    return this.board
+    return board
   },
 
   getPos: function() {
     return Math.floor(Math.random() * this.SIZE)
   },
 
-  drawBoard: function() {
+  setMines: function(board) {
     for (var i=0; i < this.SIZE; i++) {
       var x, y
 
@@ -36,24 +43,21 @@ MineSweep.prototype = {
       y = this.getPos()
 
       // Ensure positions are unique
-      while (this.board[y][x] === 'X') {
+      while (board[y][x] === 'X') {
         x = this.getPos()
         y = this.getPos()
       }
 
       // Mark mine
-      this.board[y][x] = "X"
+      board[y][x] = "X"
     }
-
-    // TODO: populate the numbers of adjacent mines
-    this.draw()
 
   },
 
-  draw: function() {
+  draw: function(board) {
     var $boardEl = $('#board')
       , _this = this
-    this.board.forEach(function(row){
+    board.forEach(function(row){
       var rowString = ''
       row.forEach(function(el) {
         rowString += '<div class="cell">' +

@@ -4,6 +4,7 @@ html { box-sizing: border-box; }
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #444;
 }
 
 a {
@@ -19,9 +20,9 @@ a {
   width: calc(100% / 5);
   height: 0;
   padding-bottom: calc(100% / 5);
-  border: 1px solid black;
   display: inline-block;
   vertical-align: top;
+  margin: 5px
 }
 
 .cover {
@@ -32,11 +33,16 @@ a {
   top: 0;
   left: 0;
   z-index: 10;
+  border-radius: 10px;
+  opacity: 0.5;
 }
 
 .count {
   position: absolute;
   top: 50%;
-  left: 50%;
+  text-align: center;
+  width: 100%;
+  transform: translateY(-50%);
   z-index: 0;
+  font-size: 32px;
 }
