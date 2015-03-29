@@ -1,6 +1,6 @@
 var MineSweep = function(options){
   options = options || {}
-  this.SIZE = options.gridSize || 4
+  this.SIZE = options.gridSize || 5
   this.NUM_MINES = options.mines || this.size
   this.setBoard(this.SIZE)
   this.drawBoard()
@@ -65,6 +65,11 @@ MineSweep.prototype = {
                       '</div>'
       })
       $boardEl.append('<div class="row">' + rowString + '</div>')
+      var cssString = 'calc(100% / ' + this.SIZE + ')'
+      $boardEl.find('.cell').css({
+        'width': cssString,
+        'height': cssString
+      })
       $('.cover').on('click', _this.clickHandle)
     })
   },
@@ -78,5 +83,5 @@ MineSweep.prototype = {
 
 
 $(function(){
-  new MineSweep({mines: 3, gridSize: 10})
+  new MineSweep({mines: 3, gridSize: 4})
 })
