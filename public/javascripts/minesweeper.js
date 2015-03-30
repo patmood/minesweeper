@@ -4,6 +4,7 @@ var MineSweep = function(options){
   var numMines = options.mines || this.size
     , board = this.setBoard(this.SIZE)
 
+  console.log(board)
   this.setMines(board, numMines)
   this.countSurrounds(board)
   this.draw(board)
@@ -13,25 +14,11 @@ MineSweep.prototype = {
   constructor: MineSweep,
 
   countSurrounds: function(board){
-    for (var i = 0; i < board.length; i ++) {
-      for (var j = 0; j < board[i].length; j++) {
-        if (board[i][j] === 'X') continue;
-        var count = 0
-        if (board[i][j+1] === 'X') count++
-        if (board[i][j-1] === 'X') count++
-        if (i > 0) {
-          if (board[i-1][j-1] === 'X') count++
-          if (board[i-1][j] === 'X') count++
-          if (board[i-1][j+1] === 'X') count++
-        }
-        if (i < board.length - 1) {
-          if (board[i+1][j-1] === 'X') count++
-          if (board[i+1][j] === 'X') count++
-          if (board[i+1][j+1] === 'X') count++
-        }
-        board[i][j] = count
-      }
-    }
+    board.forEach(function(row) {
+      row.forEach(function(cell) {
+        cell.setCount(board)
+      })
+    })
   },
 
   setBoard: function(n) {
@@ -41,7 +28,7 @@ MineSweep.prototype = {
       var row = []
         , j = n
       while (j--){
-        row.push(0)
+        row.push(new Cell(i, j))
       }
       board.push(row)
     }
@@ -67,7 +54,7 @@ MineSweep.prototype = {
       }
 
       // Mark mine
-      board[y][x] = "X"
+      board[y][x].isMine = true
     }
 
   },
@@ -82,7 +69,7 @@ MineSweep.prototype = {
                         '<div class="cover">' +
                         '</div>' +
                         '<div class="count">' +
-                          el +
+                          el.render() +
                         '</div>' +
                       '</div>'
       })
@@ -102,8 +89,3 @@ MineSweep.prototype = {
 
 }
 
-
-
-$(function(){
-  new MineSweep({mines: 6, gridSize: 4})
-})
