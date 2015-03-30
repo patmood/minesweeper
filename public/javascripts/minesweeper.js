@@ -41,46 +41,44 @@ MineSweep.prototype = {
 
   setMines: function(board, numMines) {
     for (var i=0; i < numMines; i++) {
-      var x, y
+      var col, row
 
       // Get initial position
-      x = this.getPos()
-      y = this.getPos()
+      col = this.getPos()
+      row = this.getPos()
 
       // Ensure positions are unique
-      while (board[y][x] === 'X') {
-        x = this.getPos()
-        y = this.getPos()
+      while (board[row][col] === 'X') {
+        col = this.getPos()
+        row = this.getPos()
       }
 
       // Mark mine
-      board[y][x].isMine = true
+      board[row][col].isMine = true
     }
 
   },
 
   draw: function(board) {
     var $boardEl = $('#board')
-      , _this = this
+
     board.forEach(function(row){
       var rowString = ''
       row.forEach(function(el) {
-        rowString += '<div class="cell">' +
-                        '<div class="cover">' +
-                        '</div>' +
-                        '<div class="count">' +
-                          el.render() +
-                        '</div>' +
-                      '</div>'
+        rowString += el.render()
       })
       $boardEl.append('<div class="row">' + rowString + '</div>')
-      var cssString = 'calc(100% / ' + this.SIZE + ')'
-      $boardEl.find('.cell').css({
-        'width': cssString,
-        'height': cssString
-      })
-      $('.cover').on('click', _this.clickHandle)
     })
+
+    // Size board based on number of cells
+    var cssString = 'calc(100% / ' + board[0].length + ')'
+    $boardEl.find('.cell').css({
+      'width': cssString,
+      'height': cssString
+    })
+
+    // Add click handler
+    $('.cover').on('click', this.clickHandle)
   },
 
   clickHandle: function(e) {

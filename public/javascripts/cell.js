@@ -10,11 +10,13 @@ Cell.prototype = {
   constructor: Cell,
 
   render: function() {
-    if (this.isMine) {
-      return 'X'
-    } else {
-      return this.count
-    }
+    return  '<div class="cell">' +
+              '<div class="cover">' +
+              '</div>' +
+              '<div class="count">' +
+                (this.isMine ? 'X' : this.count) +
+              '</div>' +
+            '</div>'
   },
 
   setCount: function(board) {
