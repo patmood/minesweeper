@@ -4,7 +4,7 @@ var MineSweep = function(options){
   var numMines = options.mines || this.size
     , board = this.setBoard(this.SIZE)
 
-  console.log(board)
+  this.board = board
   this.setMines(board, numMines)
   this.countSurrounds(board)
   this.draw(board)
@@ -60,29 +60,55 @@ MineSweep.prototype = {
   },
 
   draw: function(board) {
-    var $boardEl = $('#board')
+    var $board = $('#board')
 
     board.forEach(function(row){
-      var rowString = ''
+      var $row = $('<div class="row"></div>')
       row.forEach(function(el) {
-        rowString += el.render()
+        var $el = $(el.render()).data('orig', el)
+        $row.append($el)
       })
-      $boardEl.append('<div class="row">' + rowString + '</div>')
+      $board.append($row)
     })
 
     // Size board based on number of cells
     var cssString = 'calc(100% / ' + board[0].length + ')'
-    $boardEl.find('.cell').css({
+    $board.find('.cell').css({
       'width': cssString,
       'height': cssString
     })
 
     // Add click handler
-    $('.cover').on('click', this.clickHandle)
+    $('.cover').on('click', { checkGameStatus: this.checkGameStatus.bind(this) }, this.clickHandle)
   },
 
   clickHandle: function(e) {
-    $(this).hide()
+    $el = $(this)
+    $el.hide()
+    var cell = $el.parent().data()
+    if (cell.orig.isMine) {
+      alert('GAME OVER!')
+    } else {
+      cell.orig.visible = true  // This does not change the original object
+      e.data.checkGameStatus()
+    }
+  },
+
+  checkGameStatus: function(){
+    var gameOver = true
+    this.board.forEach(function(row) {
+      row.forEach(function(cell) {
+        if (cell.isMine) {
+          return;
+        } else if (!cell.visible) {
+          return gameOver = false
+        }
+      })
+    })
+
+    if (gameOver) {
+      alert('YOU WIN!')
+    }
   }
 
 }
