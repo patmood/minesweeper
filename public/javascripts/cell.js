@@ -24,7 +24,7 @@ Cell.prototype = {
     if (this.isMine || !board) return;
     var count = 0
       , row = board[this.row]
-    console.log(this.row, this.col)
+
     // mines in this row
     if ((row[this.col+1] || {}).isMine) count++
     if ((row[this.col-1] || {}).isMine) count++
