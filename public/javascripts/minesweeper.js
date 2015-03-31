@@ -8,6 +8,7 @@ var MineSweep = function(game, options){
     var board = this.reinstateBoard(game.board)
     this.board = board
     this.draw(board)
+    this.revealCells()
   } else {
     console.log('New game')
     options = options || {}
@@ -104,7 +105,7 @@ MineSweep.prototype = {
 
   clickHandle: function(e) {
     $el = $(this)
-    $el.hide()
+    $el.addClass('hide')
     var cell = $el.parent().data()
     if (cell.orig.isMine) {
       alert('GAME OVER!')
@@ -139,6 +140,15 @@ MineSweep.prototype = {
     if (gameOver) {
       alert('YOU WIN!')
     }
+  },
+
+  revealCells: function(board) {
+    $('.cell').each(function() {
+      if ($(this).data().orig.visible) {
+        $(this).find('.cover').addClass('hide')
+      }
+    })
+    this.checkGameStatus()
   }
 
 }
