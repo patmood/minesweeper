@@ -1,9 +1,10 @@
-var Cell = function(row, col) {
+var Cell = function(row, col, config) {
+  config = config || {}
   this.row = row
   this.col = col
-  this.isMine = false
-  this.visible = false
-  this.count = 0
+  this.isMine = config.isMine ? config.isMine === 'true' : false
+  this.visible = config.isMine ? config.visible === 'true' : false
+  this.count = config.isMine ? parseInt(config.count) : 0
 }
 
 Cell.prototype = {
@@ -20,7 +21,7 @@ Cell.prototype = {
   },
 
   setCount: function(board) {
-    if (this.isMine) return;
+    if (this.isMine || !board) return;
     var count = 0
       , row = board[this.row]
     if ((row[this.col+1] || {}).isMine) count++

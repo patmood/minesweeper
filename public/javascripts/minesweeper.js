@@ -1,13 +1,25 @@
-var MineSweep = function(options){
-  options = options || {}
-  this.SIZE = options.gridSize || 5
-  var numMines = options.mines || this.size
-    , board = this.setBoard(this.SIZE)
+var MineSweep = function(game, options){
+  if (!game) console.error('No game found :(')
+  this.game = game
+  if (game.board) {
+    console.log('Existing game')
+    console.log(game)
+    this.SIZE = game.board.length
+    var board = this.reinstateBoard(game.board)
+    this.board = board
+    this.draw(board)
+  } else {
+    console.log('New game')
+    options = options || {}
+    this.SIZE = options.gridSize || 5
+    var numMines = options.mines || this.size
+      , board = this.setBoard(this.SIZE)
 
-  this.board = board
-  this.setMines(board, numMines)
-  this.countSurrounds(board)
-  this.draw(board)
+    this.board = board
+    this.setMines(board, numMines)
+    this.countSurrounds(board)
+    this.draw(board)
+  }
 }
 
 MineSweep.prototype = {
@@ -21,7 +33,15 @@ MineSweep.prototype = {
     })
   },
 
-  setBoard: function(n) {
+  reinstateBoard: function(board) {
+    return board.map(function(row, i) {
+      return row.map(function(cell, j) {
+        return new Cell(i, j, cell)
+      })
+    })
+  },
+
+  setBoard: function(n, existing) {
     var board = []
     var i = n
     while (i--) {
@@ -104,6 +124,16 @@ MineSweep.prototype = {
           return gameOver = false
         }
       })
+    })
+
+    console.log(this.board)
+    this.game.board = this.board
+    $.ajax({
+      type: 'POST',
+      data: { game: this.game },
+      url: '/game/' + this.game._id,
+      success: function(res) { console.log('success', res) },
+      error: function(res) { console.log('error', res) }
     })
 
     if (gameOver) {
