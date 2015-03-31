@@ -1,9 +1,7 @@
 var express = require('express');
 var router = express.Router();
-console.log(process.env.MONGOLAB_URI)
 var db = require('monk')(process.env.MONGOLAB_URI || 'localhost/minesweeper')
 var games = db.get('games')
-
 
 router.get('/', function(req, res) {
   games.insert({}).then(function(game) {
