@@ -92,7 +92,7 @@ MineSweep.prototype = {
     })
 
     // Size board based on number of cells
-    var cssString = 'calc(100% / ' + board[0].length + ')'
+    var cssString = (100 / board[0].length) + '%'
     $board.find('.cell').css({
       'width': cssString,
       'height': cssString
