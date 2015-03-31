@@ -3,7 +3,6 @@ var MineSweep = function(game, options){
   this.game = game
   if (game.board) {
     console.log('Existing game')
-    console.log(game)
     this.SIZE = game.board.length
     var board = this.reinstateBoard(game.board)
     this.board = board
@@ -44,12 +43,12 @@ MineSweep.prototype = {
 
   setBoard: function(n, existing) {
     var board = []
-    var i = n
+    var i = n + 1
     while (i--) {
       var row = []
-        , j = n
+        , j = n + 1
       while (j--){
-        row.push(new Cell(i, j))
+        row.push(new Cell(n - i, n - j))
       }
       board.push(row)
     }
@@ -127,7 +126,6 @@ MineSweep.prototype = {
       })
     })
 
-    console.log(this.board)
     this.game.board = this.board
     $.ajax({
       type: 'POST',

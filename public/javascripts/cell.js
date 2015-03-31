@@ -24,14 +24,20 @@ Cell.prototype = {
     if (this.isMine || !board) return;
     var count = 0
       , row = board[this.row]
+    console.log(this.row, this.col)
+    // mines in this row
     if ((row[this.col+1] || {}).isMine) count++
     if ((row[this.col-1] || {}).isMine) count++
+
+    // mines above
     if (this.row > 0) {
       row = board[this.row - 1]
       if ((row[this.col-1] || {}).isMine) count++
       if ((row[this.col] || {}).isMine) count++
       if ((row[this.col+1] || {}).isMine) count++
     }
+
+    // mines below
     if (this.row < board.length - 1) {
       row = board[this.row + 1]
       if ((row[this.col-1] || {}).isMine) count++
