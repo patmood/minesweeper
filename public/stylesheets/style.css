@@ -26,7 +26,7 @@ a {
 
 .cover {
   position: absolute;
-  background-color: #29E9B9;
+  background-color: #3498db;
   width: 90%;
   height: 90%;
   top: 5%;
@@ -50,3 +50,22 @@ a {
   opacity: 0;
   transition: opacity 1s;
 }
+
+.new-game {
+  background-color: #2ecc71;
+  color: #fff;
+  text-align: center;
+  font-size: 24px;
+  border: none;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  position: relative;
+  padding: 0.3em 1em;
+  display: block;
+  width: 200px;
+  margin: 20px auto;
+  text-decoration: none;
+}
+
+.new-game:hover { background-color: #27ae60; }
